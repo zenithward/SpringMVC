@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"      
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"      
+       xmlns:p="http://www.springframework.org/schema/p"      
+       xmlns:mvc="http://www.springframework.org/schema/mvc"      
+       xmlns:context="http://www.springframework.org/schema/context"      
+       xmlns:util="http://www.springframework.org/schema/util"      
+       xsi:schemaLocation="http://www.springframework.org/schema/beans   
+            http://www.springframework.org/schema/beans/spring-beans-4.1.xsd      
+            http://www.springframework.org/schema/context   
+            http://www.springframework.org/schema/context/spring-context-4.1.xsd      
+            http://www.springframework.org/schema/mvc   
+            http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd      
+            http://www.springframework.org/schema/util   
+            http://www.springframework.org/schema/util/spring-util-4.1.xsd">   
+  
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- 配置DataSource数据源 -->
+	<!-- <context:component-scan base-package="com.wg" /> --> 
+	 
+	
+	<bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+<property name="url" value="jdbc:mysql://localhost:3306/test"/>
+<property name="username" value="root"/>
+<property name="password" value="123456"/>
+</bean>
+
+	<!-- 创建SqlSessionFactory，同时指定数据源 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="datasource" />
+		<property name="typeAliasesPackage" value="com.wg.bean"/>
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+	</bean>
+	
+	 <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	<property name="basePackage" value="com.wg.mapper"/>
+	
+	</bean>
+	
+	<bean id="manager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+<property name="dataSource" ref="datasource"/></bean>
+
+</beans>
+ 
